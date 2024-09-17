@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, {useState} from "react";
 import axios from "axios";
+import { Navigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -37,7 +38,7 @@ export default function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await axios.post(process.env.REACT_APP_BASE_URL+'/login',
+        const response = await axios.post("http://10.13.4.241:4000/api/admin/login",
             {
                 username, 
                 password
@@ -49,8 +50,8 @@ export default function SignIn() {
         alert(result['message']);
 
         if(result['status'] === true){
-            // localStorage.setItem('token', result['token']);
-            window.location.href = '/';
+            localStorage.setItem('token', result['token']);
+            window.location.href = '/SignUp';
         }
     }
 
@@ -70,7 +71,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in Admin
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -109,18 +110,6 @@ export default function SignIn() {
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

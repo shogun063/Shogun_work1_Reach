@@ -11,8 +11,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Email } from '@mui/icons-material';
 
 function Copyright(props) {
   return (
@@ -33,21 +34,33 @@ const defaultTheme = createTheme();
 
 export default function SignUp() {
     const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [gender, setGender] = useState("");
 
+    // Check for token and status on component mount
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try{
-            const response = await axios.post(process.env.REACT_APP_BASE_URL+'/register',
+          const token = localStorage.getItem('token');
+          const status = localStorage.getItem('status');
+
+        const headers = {
+            'authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+            const response = await axios.post("http://10.13.4.241:4000/api/employee",
                 {
                     username,
-                    password,
                     firstName,
-                    lastName
-                }
+                    lastName,
+                    email,
+                    gender
+                },
+                { headers }
             )
             const result = response.data;
             console.log(result);
@@ -78,7 +91,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Employee Registration
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -123,19 +136,26 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  value={password}
-                onChange={ (e) => setPassword(e.target.value) }
+                  name="email"
+                  label="email"
+                  type="email"
+                  id="email"
+                  autoComplete="new-email"
+                  value={email}
+                onChange={ (e) => setEmail(e.target.value) }
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                <TextField
+                  required
+                  fullWidth
+                  name="gender"
+                  label="gender"
+                  type="gender"
+                  id="gender"
+                  autoComplete="new-gender"
+                  value={gender}
+                onChange={ (e) => setGender(e.target.value) }
                 />
               </Grid>
             </Grid>
@@ -145,15 +165,8 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Add Data Of Employee
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />
