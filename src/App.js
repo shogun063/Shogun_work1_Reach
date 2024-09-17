@@ -1,5 +1,5 @@
 import './App.css';
-import SignIn from './components/SignIn';
+import SignIn from './components/login';
 import SignUp from './components/SignUp';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -9,8 +9,8 @@ function App() {
     <Router>
       <Routes>
       <Route exact path='/' element={<SignIn/>} />
-        <Route exact path='/signin' element={<SignIn/>} />
-        <Route exact path='/SignUp' element={<SignUp/>}/>
+        <Route exact path='/login' element={<SignIn/>} />
+        <Route exact path='/add' element={<SignUp/>}/>
       </Routes>
     </Router>
   );

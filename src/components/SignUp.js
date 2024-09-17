@@ -2,8 +2,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -11,9 +9,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { Email } from '@mui/icons-material';
 
 function Copyright(props) {
   return (
@@ -28,52 +25,48 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
-export default function SignUp() {
-    const [username, setUsername] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [gender, setGender] = useState("");
+export default function AddEmployee() {
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
 
-    // Check for token and status on component mount
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        try{
-          const token = localStorage.getItem('token');
-          const status = localStorage.getItem('status');
+    try {
+      const token = localStorage.getItem('token');
 
-        const headers = {
-            'authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        };
+      const headers = {
+        'authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
 
-            const response = await axios.post("http://10.13.4.241:4000/api/employee",
-                {
-                    username,
-                    firstName,
-                    lastName,
-                    email,
-                    gender
-                },
-                { headers }
-            )
-            const result = response.data;
-            console.log(result);
-            alert(result['message']);
+      const response = await axios.post("http://10.13.1.34:4000/api/employee",
+        {
+          username,
+          firstName,
+          lastName,
+          email,
+          gender
+        },
+        { headers }
+      )
+      const result = response.data;
+      console.log(result);
+      alert(result['message']);
 
-            if(result['status'] === true){
-                window.location.href = '/';
-            }
+      if (result['status'] === true) {
+        window.location.href = '/';
+      }
 
-        }catch(err){
-            console.log(err)
-        }
+    } catch (err) {
+      console.log(err)
     }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -91,7 +84,7 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Employee Registration
+            การเพิ่มข้อมูลของพนักงาน
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -105,7 +98,7 @@ export default function SignUp() {
                   label="First Name"
                   autoFocus
                   value={firstName}
-                  onChange={ (e) => setFirstName(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -117,7 +110,7 @@ export default function SignUp() {
                   name="lastName"
                   autoComplete="family-name"
                   value={lastName}
-                onChange={ (e) => setLastName(e.target.value)}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -129,7 +122,7 @@ export default function SignUp() {
                   name="username"
                   autoComplete="username"
                   value={username}
-                  onChange={ (e) => setUsername(e.target.value) }
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -137,12 +130,12 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="email"
-                  label="email"
+                  label="Email"
                   type="email"
                   id="email"
                   autoComplete="new-email"
                   value={email}
-                onChange={ (e) => setEmail(e.target.value) }
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -150,12 +143,10 @@ export default function SignUp() {
                   required
                   fullWidth
                   name="gender"
-                  label="gender"
-                  type="gender"
+                  label="Gender"
                   id="gender"
-                  autoComplete="new-gender"
                   value={gender}
-                onChange={ (e) => setGender(e.target.value) }
+                  onChange={(e) => setGender(e.target.value)}
                 />
               </Grid>
             </Grid>
@@ -165,7 +156,7 @@ export default function SignUp() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Add Data Of Employee
+              เพิ่่มข้อมูล
             </Button>
           </Box>
         </Box>

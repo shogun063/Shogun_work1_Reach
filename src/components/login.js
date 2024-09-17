@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -13,7 +12,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, {useState} from "react";
 import axios from "axios";
-import { Navigate } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -38,7 +36,7 @@ export default function SignIn() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const response = await axios.post("http://10.13.4.241:4000/api/admin/login",
+        const response = await axios.post("http://10.13.1.34:4000/api/admin/login",
             {
                 username, 
                 password
@@ -51,7 +49,7 @@ export default function SignIn() {
 
         if(result['status'] === true){
             localStorage.setItem('token', result['token']);
-            window.location.href = '/SignUp';
+            window.location.href = '/add';
         }
     }
 
@@ -71,7 +69,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in Admin
+            เข้าสู่ระบบ Admin
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -98,17 +96,13 @@ export default function SignIn() {
               onChange={ (e) => setPassword(e.target.value) }
               autoComplete="current-password"
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              เข้าสู่ระบบ
             </Button>
           </Box>
         </Box>
